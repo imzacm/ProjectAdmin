@@ -5,6 +5,19 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+<?php
+if (file_exists("update"))
+{
+    chdir("update");
+    $files = scandir("./");
+    foreach($files as $f)
+    {
+        unlink($f);
+    }
+    chdir("../");
+    rmdir("update");
+}
+?>
 <h1 style="text-align:center">Project Admin</h1>
 <ul>
     <li><a href="index.php">Home</a></li>

@@ -8,7 +8,14 @@
 <?php
 if (file_exists("update"))
 {
-    unlink("update");
+    chdir("update");
+    $files = scandir("./");
+    foreach($files as $f)
+    {
+        unlink($f);
+    }
+    chdir("../");
+    rmdir("update");
 }
 ?>
 <h1 style="text-align:center">Project Admin</h1>
