@@ -51,7 +51,7 @@ if ($version !== $githubVersion) {
     $files = scandir("../");
     foreach ($files as $f)
     {
-        copy($f, "../backup/$f");
+        copy("../$f", "../backup/$f");
     }
     echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
