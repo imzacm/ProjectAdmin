@@ -35,17 +35,45 @@ if ($file) {
     fclose($file);
 }
 unlink("githubVersion");
-if ($version < $githubVersion) {
+if ($version !== $githubVersion) {
     echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
     file_put_contents("master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
     echo "<p>Download complete</p>";
     $zip = new ZipArchive;
     if ($zip->open('master.zip') == TRUE) {
-        $zip->extractTo('.');
+        $zip->extractTo('./');
         echo "<p>Extracting . . . . </p>";
         $zip->close();
         unlink("master.zip");
+
+        $source = "ProjectAmin-master/";
+        $destination = "./";
+        if (file_exists($destination)) {
+            if (is_dir($destination)) {
+                if (is_writable($destination)) {
+                    if ($handle = opendir($source)) {
+                        while (false !== ($file = readdir($handle))) {
+                            if (is_file($source . '/' . $file)) {
+                                rename($source . '/' . $file, $destination . '/' . $file);
+                            }
+                        }
+                        closedir($handle);
+                    } else {
+                        echo "<p>Failed to update</p>";
+                    }
+                } else {
+                    echo "<p>Failed to update</p>";
+                }
+            } else {
+                echo "<p>Failed to update</p>";
+            }
+        } else {
+            echo "<p>Failed to update</p>";
+        }
+
+        echo "<p>Finished updating</p>";
+        unlink("ProjectAmin-master");
     }
     else
     {
