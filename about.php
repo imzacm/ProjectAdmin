@@ -16,6 +16,8 @@ if (file_exists("update"))
     }
     chdir("../");
     rmdir("update");
+    header("Location: about.php");
+    die();
 }
 ?>
 <h1 style="text-align:center">Project Admin</h1>

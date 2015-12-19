@@ -16,6 +16,8 @@ if (file_exists("update"))
     }
     chdir("../");
     rmdir("update");
+    header("Location: update.php");
+    die();
 }
 ?>
 <h1 style="text-align:center">Project Admin</h1>
@@ -49,18 +51,7 @@ if ($file) {
 }
 unlink("../githubVersion");
 if ($version !== $githubVersion) {
-    if (file_exists("../backup"))
-    {
-        echo "Overwriting backup";
-        rmdir("../backup");
-    }
-    mkdir("../backup");
-    $files = scandir("../");
-    foreach ($files as $f)
-    {
-        copy("../$f", "../backup/$f");
-    }
-    echo "<p>Newer version available</p>";
+        echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
     file_put_contents("../master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
     echo "<p>Download complete</p>";
@@ -81,7 +72,20 @@ if ($version !== $githubVersion) {
         }
 
         echo "<p>Finished updating</p>";
-        rmdir("../ProjectAdmin-master");
+        chdir("../ProjectAdmin-master");
+        $files = scandir(".");
+        foreach($files as $f)
+        {
+            if(!is_dir($f))
+            {
+                unlink("${f}");
+            }
+            else{
+                rmdir("${f}");
+            }
+        }
+        chdir("../");
+        rmdir("ProjectAdmin-master");
     }
     else
     {

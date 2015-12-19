@@ -7,16 +7,19 @@
 <body>
 <?php
 if (file_exists("update"))
-{
-    chdir("update");
-    $files = scandir("./");
-    foreach($files as $f)
+    if (file_exists("update"))
     {
-        unlink($f);
+        chdir("update");
+        $files = scandir("./");
+        foreach($files as $f)
+        {
+            unlink($f);
+        }
+        chdir("../");
+        rmdir("update");
+        header("Location: projects.php");
+        die();
     }
-    chdir("../");
-    rmdir("update");
-}
 ?>
 <h1 style="text-align:center">Project Admin</h1>
 <ul>
