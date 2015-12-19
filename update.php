@@ -2,16 +2,22 @@
 <html>
 <head>
     <title>Project Admin | Update</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
 </head>
 <body>
+<?php
+if (file_exists("update"))
+{
+    unlink("update");
+}
+?>
 <h1 style="text-align:center">Project Admin</h1>
 <ul>
-    <li><a href="index.php">Home</a></li>
-    <li><a href="projects.php">Projects</a></li>
-    <li><a href="about.php">About</a></li>
+    <li><a href="../index.php">Home</a></li>
+    <li><a href="../projects.php">Projects</a></li>
+    <li><a href="../about.php">About</a></li>
     <ul style="float:right;list-style-type:none;">
-        <li><a class="active" href="update.php">Check for update</a></li>
+        <li><a class="active" href="../loadUpdate.php">Check for update</a></li>
     </ul>
 </ul>
 
@@ -19,61 +25,45 @@
     Checking for updates . . . .
 </p>
 <?php
-$file = fopen("version", "r");
+$file = fopen("../version", "r");
 if ($file) {
     while (($line = fgets($file)) !== false) {
         $version = $line;
     }
     fclose($file);
 }
-file_put_contents("githubVersion", file_get_contents("https://raw.githubusercontent.com/imzacm/ProjectAdmin/master/version"));
-$file = fopen("githubVersion", "r");
+file_put_contents("../githubVersion", file_get_contents("https://raw.githubusercontent.com/imzacm/ProjectAdmin/master/version"));
+$file = fopen("../githubVersion", "r");
 if ($file) {
     while (($line = fgets($file)) !== false) {
         $githubVersion = $line;
     }
     fclose($file);
 }
-unlink("githubVersion");
+unlink("../githubVersion");
 if ($version !== $githubVersion) {
     echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
-    file_put_contents("master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
+    file_put_contents("../master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
     echo "<p>Download complete</p>";
     $zip = new ZipArchive;
-    if ($zip->open('master.zip') == TRUE) {
-        $zip->extractTo('./');
+    if ($zip->open('../master.zip') == TRUE) {
+        $zip->extractTo('../');
         echo "<p>Extracting . . . . </p>";
         $zip->close();
-        unlink("master.zip");
+        unlink("../master.zip");
 
-        $source = "ProjectAmin-master/";
-        $destination = "./";
-        if (file_exists($destination)) {
-            if (is_dir($destination)) {
-                if (is_writable($destination)) {
-                    if ($handle = opendir($source)) {
-                        while (false !== ($file = readdir($handle))) {
-                            if (is_file($source . '/' . $file)) {
-                                rename($source . '/' . $file, $destination . '/' . $file);
-                            }
-                        }
-                        closedir($handle);
-                    } else {
-                        echo "<p>Failed to update</p>";
-                    }
-                } else {
-                    echo "<p>Failed to update</p>";
-                }
-            } else {
-                echo "<p>Failed to update</p>";
+        $source = "../ProjectAdmin-master/";
+        $destination = "../";
+        $files = scandir($source);
+        foreach($files as $fname) {
+            if($fname !== '.' && $fname !== '..') {
+                rename($source.$fname, $destination.$fname);
             }
-        } else {
-            echo "<p>Failed to update</p>";
         }
 
         echo "<p>Finished updating</p>";
-        unlink("ProjectAmin-master");
+        unlink("../ProjectAdmin-master");
     }
     else
     {
