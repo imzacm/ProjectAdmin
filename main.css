@@ -44,3 +44,32 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
+
+body {
+    background-image: url("background2.png");
+}
+
+p {
+    font-size: 110%;
+    font-family: JosefinSlab;
+}
+
+@font-face {
+    font-family: "Stalemate";
+    src: url("Stalemate-Regular.ttf");
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url("JosefinSlab-Regular.ttf");
+}
+
+h1 {
+    font-family: Stalemate;
+    font-size: 310%;
+}
+
+h2 {
+    font-family: JosefinSlab;
+    font-size: 200%;
+}
