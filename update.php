@@ -42,6 +42,8 @@ if ($file) {
 }
 unlink("../githubVersion");
 if ($version !== $githubVersion) {
+    mkdir("backup");
+    copy("*", "backup");
     echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
     file_put_contents("../master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
@@ -63,7 +65,7 @@ if ($version !== $githubVersion) {
         }
 
         echo "<p>Finished updating</p>";
-        unlink("../ProjectAdmin-master");
+        rmdir("../ProjectAdmin-master");
     }
     else
     {

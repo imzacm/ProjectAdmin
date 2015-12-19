@@ -11,7 +11,7 @@
     <li><a class="active" href="projects.php">Projects</a></li>
     <li><a href="about.php">About</a></li>
     <ul style="float:right;list-style-type:none;">
-        <li><a href="update.php">Check for update</a></li>
+        <li><a href="loadUpdate.php">Check for update</a></li>
     </ul>
 </ul>
 <?php
