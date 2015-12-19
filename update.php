@@ -42,8 +42,17 @@ if ($file) {
 }
 unlink("../githubVersion");
 if ($version !== $githubVersion) {
-    mkdir("backup");
-    copy("*", "backup");
+    if (file_exists("../backup"))
+    {
+        echo "Overwriting backup";
+        rmdir("../backup");
+    }
+    mkdir("../backup");
+    $files = scandir("../");
+    foreach ($files as $f)
+    {
+        copy($f, "../backup/$f");
+    }
     echo "<p>Newer version available</p>";
     echo "<p>Downloading . . . .</p>";
     file_put_contents("../master.zip", file_get_contents("https://github.com/imzacm/ProjectAdmin/archive/master.zip"));
